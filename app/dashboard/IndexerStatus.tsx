@@ -166,6 +166,10 @@ export function isAssertiveState(state: IndexerState): boolean {
 
 export function IndexerStatus({ data, className = "" }: IndexerStatusProps) {
   const headingId = useId();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   const { network, lastProcessedLedger, latestLedger, status, lastUpdatedAt, lag, message } = data;
   const sev = severity(status, lag);
   const label = statusLabel(status);
@@ -306,7 +310,7 @@ export function IndexerStatus({ data, className = "" }: IndexerStatusProps) {
           </div>
 
           <span className="indexer-status__timestamp">
-            updated {relativeTime(lastUpdatedAt)}
+            {mounted ? "updated " + relativeTime(lastUpdatedAt) : "updated"}
           </span>
         </div>
 
